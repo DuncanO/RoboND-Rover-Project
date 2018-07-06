@@ -117,7 +117,6 @@ def perception_step(Rover):
     bottom_offset = 6
     image = Rover.img
     
-    # 1):
     source = np.float32([[14, 140],[301, 140],[200, 96],[118, 96]])
     destination = np.float32([[image.shape[1]/2 - dst_size, image.shape[0] - bottom_offset],
                   [image.shape[1]/2 + dst_size, image.shape[0] - bottom_offset],
@@ -147,18 +146,10 @@ def perception_step(Rover):
     Rover.worldmap[y_world, x_world, 2] += 10
     Rover.worldmap[obs_y_world, obs_x_world, 0] += 1
 
-    # 8):
     dist, angles = to_polar_coords(xpix, ypix)
     Rover.nav_angles = angles
     rock_map = find_rocks(warped, levels=(110, 110, 50))
     
-    if rock_map.any():
-        rock_x, rock_y = rover_coords(rock_map)
-        rock_x_world, rock_y_world = pix_to_world(rock_x, rock_y, xpos,
-                                                 ypos, yaw, world_size, scale)
-        
-        Rover.worldmap[rock_y_world, rock_x_world, :] = 255
-        rock_dist, rock_ang = to_polar_coords(rock_x, rock_y)
     
     if rock_map.any():
         rock_x, rock_y = rover_coords(rock_map)
