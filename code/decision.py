@@ -72,7 +72,8 @@ def decision_step(Rover):
         Rover.send_pickup = True
     elif Rover.near_sample and Rover.vel != 0:
         Rover.throttle = 0
-        Rover.send_pickup = True
+        if not Rover.picking_up:
+            Rover.send_pickup = True
     
     return Rover
 
